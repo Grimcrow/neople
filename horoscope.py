@@ -1,14 +1,14 @@
 import os
 import openai
-from datetime import date
+from datetime import datetime
 from dotenv import load_dotenv
 
 load_dotenv()
 
 openai.api_key = os.getenv("OPENAPI_API_KEY")
 
-def chart(name, day, month, year, place, current_date):
-    content = "My name is "+name+", I was born on "+month+"/"+str(day)+"/"+str(year)+" in "+place+". Today is the "+current_date+"Write a message in the format of. “Hi Ben, what a beautiful day today to be a Sagittarius! <a short message about the zodiac sign>!”"
+def chart(user):
+    content = "My name is "+user.name+", I was born on "+user.date_of_birth+" in "+user.place_of_birth+". Today is the "+datetime.today().strftime('%Y-%m-%d')+"Write a message in the format of. “Hi Ben, what a beautiful day today to be a Sagittarius! <a short message about the zodiac sign>!”"
     
     response = openai.ChatCompletion.create(
     model="gpt-3.5-turbo",
@@ -18,5 +18,3 @@ def chart(name, day, month, year, place, current_date):
     ]
     )
     return response['choices'][0]['message']['content']
-
-print(chart("Steve", "13", "2", "2002", "russia", "20/06/2023"))
